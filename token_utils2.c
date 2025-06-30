@@ -164,6 +164,15 @@ char	*expand_str(char *str, char **envp, int exit_status)
 	result = ft_strdup("");
 	while (str[i])
 	{
+		if (str[i] == '\'' || str[i] == '"')
+        {
+            part = handle_quotes_expansion(str, &i, envp, exit_status);
+            if (!part)  // Vérification ajoutée
+            {
+                free(result);
+                return (NULL);
+            }
+        }
 		if (str[i] == '\'' && !ft_strchr(str + i + 1, '\''))
 			break ;
 		else if (str[i] == '\'')

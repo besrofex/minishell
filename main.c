@@ -151,8 +151,11 @@ int main(int argc, char **argv, char **envp)
    expand_tokens(tokens, envp, 0);
    commands = parse_tokens(tokens);
    
+	if (commands)
+    print_cmd_structure(commands);
+
    free_tokens(tokens);
    free_commands(commands);
-   
+
    return (0);
 }

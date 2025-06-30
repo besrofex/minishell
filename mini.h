@@ -64,8 +64,8 @@ char	*get_env_value(char *var_name, char **envp);
 char	*handle_globbing(char *pattern);
 
 
-void add_argument(t_cmd *cmd, t_token *token);
-void add_redirection(t_cmd *cmd, t_token *token);
+int add_argument(t_cmd *cmd, t_token *token);
+int add_redirection(t_cmd *cmd, t_token *token);
 t_cmd *init_cmd(void);
 
 #endif

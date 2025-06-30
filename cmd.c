@@ -13,24 +13,24 @@ t_cmd *init_cmd(void)
    return (cmd);
 }
 
-void add_redirection(t_cmd *cmd, t_token *token)
+int add_redirection(t_cmd *cmd, t_token *token)
 {
    t_redirection *new;
    t_redirection *last;
    
-   if (!cmd || !token || !token->next)
-      return;
+   if (!cmd || !token || !token->next || !token->next->value)
+      return (0);
 
    new = malloc(sizeof(t_redirection));
    if (!new)
-      return;
+      return (0);
 
    new->type = token->type;
    new->file = ft_strdup(token->next->value);
    if (!new->file)
    {
       free(new);
-      return;
+      return (0);
    }
    new->next = NULL;
 
@@ -43,30 +43,31 @@ void add_redirection(t_cmd *cmd, t_token *token)
          last = last->next;
       last->next = new;
    }
+	return (1);
 }
 
-void add_argument(t_cmd *cmd, t_token *token)
+int add_argument(t_cmd *cmd, t_token *token)
 {
    int i = 0;
    char **new_args;
 
-   if (!cmd || !token)
-      return;
+   if (!cmd || !token || !token->value)
+      return (0);
 
    if (!cmd->args)
    {
       cmd->args = malloc(sizeof(char *) * 2);
       if (!cmd->args)
-         return;
+         return (0);
       cmd->args[0] = ft_strdup(token->value);
       if (!cmd->args[0])
       {
          free(cmd->args);
          cmd->args = NULL;
-         return;
+         return (0);
       }
       cmd->args[1] = NULL;
-      return;
+      return (1);
    }
 
    while (cmd->args[i])
@@ -74,7 +75,7 @@ void add_argument(t_cmd *cmd, t_token *token)
 
    new_args = malloc(sizeof(char *) * (i + 2));
    if (!new_args)
-      return;
+      return (0);
       
    i = 0;
    while (cmd->args[i])
@@ -86,12 +87,13 @@ void add_argument(t_cmd *cmd, t_token *token)
    if (!new_args[i])
    {
       free(new_args);
-      return;
+      return (0);
    }
    new_args[i + 1] = NULL;
 
    free(cmd->args);
    cmd->args = new_args;
+	return (1);
 }
 
 void free_commands(t_cmd *commands)
@@ -125,4 +127,32 @@ void free_commands(t_cmd *commands)
 
       free(tmp_cmd);
    }
+}
+
+
+void print_cmd_structure(t_cmd *cmd)
+{
+    int cmd_num = 1;
+    
+    while (cmd)
+    {
+        printf("=== Command %d ===\n", cmd_num++);
+        
+        // Arguments
+        printf("Arguments:");
+        for (int i = 0; cmd->args && cmd->args[i]; i++)
+            printf(" [%s]", cmd->args[i]);
+        printf("\n");
+        
+        // Redirections
+        t_redirection *redir = cmd->redirections;
+        while (redir)
+        {
+            const char *types[] = {"<", ">", ">>", "<<"};
+            printf("Redir: %s %s\n", types[redir->type - TOKEN_REDIR_IN], redir->file);
+            redir = redir->next;
+        }
+        
+        cmd = cmd->next;
+    }
 }

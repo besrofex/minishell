@@ -1,4 +1,18 @@
-				#include "mini.h"
+#include "mini.h"
+
+// Ajouter en tête de fichier
+static int handle_redirection(t_cmd *cmd, t_token **current)
+{
+    if (!(*current)->next || (*current)->next->type != TOKEN_WORD)
+    {
+        fprintf(stderr, "minishell: syntax error near token `%s'\n", (*current)->value);
+        return (0);
+    }
+    if (!add_redirection(cmd, *current))
+        return (0);
+    *current = (*current)->next->next;
+    return (1);
+}
 
 t_cmd *parse_tokens(t_token *tokens)
 {
@@ -30,15 +44,26 @@ t_cmd *parse_tokens(t_token *tokens)
 
       if (is_redirection(current->type))
       {
-         add_redirection(current_cmd, current);
-         current = current->next; // Skip redirection token
-         if (current)             // Skip filename token
-            current = current->next;
+         if (!handle_redirection(current_cmd, &current))
+    		{
+        		free_commands(cmd_list);
+        		return (NULL);
+    		}
+    		continue;
       }
       else if (current->type == TOKEN_WORD)
       {
-         add_argument(current_cmd, current);
-         current = current->next;
+			if (current->value[0] == '\0')  // Ignorer les mots vides
+    		{
+        		current = current->next;
+        		continue;
+    		}
+    		if (!add_argument(current_cmd, current))
+    		{
+        		free_commands(cmd_list);
+        		return (NULL);
+    		}
+    		current = current->next;
       }
       else
       {
@@ -108,7 +133,7 @@ char	*handle_globbing(char *pattern)
 }
 
 // Cette fonction est utilisée mais pas définie
-int is_redirection(t_token_type type)
+static int is_redirection(t_token_type type)
 {
    return (type == TOKEN_REDIR_IN || type == TOKEN_REDIR_OUT || 
             type == TOKEN_REDIR_APPEND || type == TOKEN_HEREDOC);

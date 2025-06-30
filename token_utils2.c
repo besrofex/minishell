@@ -135,7 +135,6 @@ void expand_tokens(t_token *tokens, char **envp, int exit_status)
             current = current->next;
             continue;
          }
-
          if (ft_strchr(expanded, '*') && current->quoted != 2)
          {
             tmp = handle_globbing(expanded);

@@ -4,7 +4,7 @@
 
 # include <stdlib.h>
 # include <stdio.h>
-# include "../libft42/libft.h"
+# include "./libft42/libft.h"
 
 
 typedef enum e_token_type {
@@ -38,19 +38,19 @@ typedef struct s_cmd {
     struct s_cmd *next;
 } t_cmd;
 
-
-t_token *create_token(t_token_type type, char *value);
-int is_delimiter(char c);
+// utils :
 int is_whitespace(char c);
+int is_delimiter(char c);
+t_token *create_token(t_token_type type, char *value);
 void add_token_to_list(t_token **head, t_token *new_token);
 void free_tokens(t_token *tokens);
 int check_syntax(t_token *tokens);
 
-
+// main 
 t_token *tokenize_word(char *input, int *i);
 t_token *tokenize(char *input);
 
-
+// utils_token_2
 void	expand_tokens(t_token *tokens, char **envp, int exit_status);
 char	*expand_str(char *str, char **envp, int exit_status);
 char	*expand_var(char *str, int *i, char **envp, int exit_status);

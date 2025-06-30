@@ -13,8 +13,9 @@ int is_delimiter(char c)
 
 t_token *create_token(t_token_type type, char *value)
 {
-   t_token *token = malloc(sizeof(t_token));
+   t_token *token;
    
+	token = malloc(sizeof(t_token));
    if (!token)
       return (NULL);
    token->type = type;
@@ -26,27 +27,23 @@ t_token *create_token(t_token_type type, char *value)
    }
    token->quoted = 0;
    token->next = NULL;
-   
    return (token);
 }
 
 void add_token_to_list(t_token **head, t_token *new_token)
 {
-    t_token *current;
+   t_token *current;
 
    if (!new_token)
       return;
-   
    if (!*head)
    {
       *head = new_token;
       return;
    }
-   
    current = *head;
    while (current->next)
       current = current->next;
-   
    current->next = new_token;
 }
 
@@ -87,7 +84,6 @@ int check_syntax(t_token *tokens)
          fprintf(stderr, "Syntax error near redirection\n");
          return (0);
       }
-      
       prev = current;
       current = current->next;
    }

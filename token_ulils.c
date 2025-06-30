@@ -1,4 +1,4 @@
-#include "mini.h"
+				#include "mini.h"
 
 t_cmd *parse_tokens(t_token *tokens)
 {

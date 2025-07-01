@@ -48,7 +48,7 @@ static char	*handle_quotes_expansion(char *str, int *i, char **envp, int exit_st
 	char	*temp;
 	char	quote;
 	int		start;
-	int		j;
+	// int		j;
 
 	quote = str[*i];
 	(*i)++; // Skip opening quote

@@ -14,6 +14,13 @@ static int handle_redirection(t_cmd *cmd, t_token **current)
     return (1);
 }
 
+// Cette fonction est utilisée mais pas définie
+static int is_redirection(t_token_type type)
+{
+   return (type == TOKEN_REDIR_IN || type == TOKEN_REDIR_OUT || 
+            type == TOKEN_REDIR_APPEND || type == TOKEN_HEREDOC);
+}
+
 t_cmd *parse_tokens(t_token *tokens)
 {
    t_cmd *cmd_list = NULL;
@@ -72,11 +79,4 @@ t_cmd *parse_tokens(t_token *tokens)
    }
    
    return cmd_list;
-}
-
-// Cette fonction est utilisée mais pas définie
-static int is_redirection(t_token_type type)
-{
-   return (type == TOKEN_REDIR_IN || type == TOKEN_REDIR_OUT || 
-            type == TOKEN_REDIR_APPEND || type == TOKEN_HEREDOC);
 }

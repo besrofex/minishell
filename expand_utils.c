@@ -16,7 +16,7 @@ char	*handle_globbing(char *pattern)
 {
    glob_t	globbuf;
    char		*result;
-   int		i;
+   size_t		i;
 
    if (glob(pattern, 0, NULL, &globbuf) != 0)
       return (ft_strdup(pattern));

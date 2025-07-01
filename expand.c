@@ -103,19 +103,19 @@ static char	*handle_quotes_expansion(char *str, int *i, char **envp, int exit_st
 	}
 }
 
-static char	*process_dollar_in_dquote(char *str, int *i, char **envp, int exit_status)
-{
-	char	*before;
-	char	*var;
-	char	*after;
-	char	*result;
+// static char	*process_dollar_in_dquote(char *str, int *i, char **envp, int exit_status)
+// {
+// 	char	*before;
+// 	char	*var;
+// 	char	*after;
+// 	char	*result;
 
-	before = ft_substr(str, 0, *i);
-	var = expand_var(str, i, envp, exit_status);
-	after = ft_strdup(str + *i);
-	result = ft_strjoin_free(ft_strjoin_free(before, var, 1), after, 3);
-	return (result);
-}
+// 	before = ft_substr(str, 0, *i);
+// 	var = expand_var(str, i, envp, exit_status);
+// 	after = ft_strdup(str + *i);
+// 	result = ft_strjoin_free(ft_strjoin_free(before, var, 1), after, 3);
+// 	return (result);
+// }
 
 /* Fonction principale */
 

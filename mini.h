@@ -4,6 +4,7 @@
 
 # include <stdlib.h>
 # include <stdio.h>
+# include <glob.h>
 # include "./libft/libft.h"
 
 
@@ -41,31 +42,35 @@ typedef struct s_cmd {
 // utils :
 int is_whitespace(char c);
 int is_delimiter(char c);
+int check_syntax(t_token *tokens);
+
+// token_utils
 t_token *create_token(t_token_type type, char *value);
 void add_token_to_list(t_token **head, t_token *new_token);
 void free_tokens(t_token *tokens);
-int check_syntax(t_token *tokens);
 
-// main 
+// tokenize 
 t_token *tokenize_word(char *input, int *i);
 t_token *tokenize(char *input);
 
-// utils_token_2
+// expand 
 void	expand_tokens(t_token *tokens, char **envp, int exit_status);
 char	*expand_str(char *str, char **envp, int exit_status);
-char	*expand_var(char *str, int *i, char **envp, int exit_status);
-char	*handle_quotes_expansion(char *str, int *i, char **envp, int exit_status);
-char	*process_dollar_in_dquote(char *str, int *i, char **envp, int exit_status);
+// char	*process_dollar_in_dquote(char *str, int *i, char **envp, int exit_status);
 
-
+// parse token 
 t_cmd   *parse_tokens(t_token *tokens);
+
+// expand utils
 char	*ft_strjoin_free(char *s1, char *s2, int to_free);
 char	*get_env_value(char *var_name, char **envp);
 char	*handle_globbing(char *pattern);
 
-
+// cmd
 int add_argument(t_cmd *cmd, t_token *token);
 int add_redirection(t_cmd *cmd, t_token *token);
 t_cmd *init_cmd(void);
+void free_commands(t_cmd *commands);
+void print_cmd_structure(t_cmd *cmd);
 
 #endif

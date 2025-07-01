@@ -1,6 +1,5 @@
 #include "mini.h"
 
-
 t_cmd *init_cmd(void)
 {
    t_cmd *cmd = malloc(sizeof(t_cmd));
@@ -128,7 +127,6 @@ void free_commands(t_cmd *commands)
       free(tmp_cmd);
    }
 }
-
 
 void print_cmd_structure(t_cmd *cmd)
 {
